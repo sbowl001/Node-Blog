@@ -12,16 +12,26 @@
 
 const express = require('express');
 
+const userRouter = require('./routes/userRoutes');
+const postRouter = require('./routes/postRoutes');
+const tagRouter = require('./routes/tagRoutes');
+
+
 const server = express();
 
 server.listen(5000, ()=> {
     console.log('App running on port 5000')
 })
+server.use(express.json());
 
 server.get('/', (req, res) => {
     console.log("get Request"); 
     res.send("Got request")
 })
+
+server.use("/api/users", userRouter);
+server.use("/api/posts", postRouter);
+server.use("/api/tags", tagRouter);
 // Users
 // id: number, no need to provide it when creating users, the database will generate it.
 // name: up to 128 characters long, required.
