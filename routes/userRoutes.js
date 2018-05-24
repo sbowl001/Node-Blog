@@ -18,4 +18,18 @@ router.get("/",  (req, res) => {
       );
 
 }) 
+
+router.get("/:id", (req, res) => {
+  const userId = req.params.id;
+  userDb
+    .get(userId)
+    .then(user => res.status(200).json({ user}))
+    .catch(err =>
+      res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist." })
+    );
+});
+
+ 
 module.exports = router;
