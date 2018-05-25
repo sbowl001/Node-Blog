@@ -31,5 +31,24 @@ router.get("/:id", (req, res) => {
     );
 });
 
+router.post("/", (req, res) => {
+  const  newUser  = req.body;
+  if (newUser.name === undefined || newUser.name.length > 128) {
+    res.status(400).json({
+      errorMessage: "Please provide name or make username less than 128 characters."
+    });
+  }
+  userDb
+    .insert(newUser)
+    .then(user => {
+      res.status(201).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "There was an error while saving the user to the database"
+      });
+    });
+});
+
  
 module.exports = router;
