@@ -26,4 +26,26 @@ router.get("/:id", (req, res) => {
     );
 });
 
+router.post("/", (req, res) => {
+  const {text, userId} = req.body;
+  const newPost = {text, userId};
+  if (newPost.userId === undefined || !(typeof userId === 'number')) { //not fully working - userid is not constrained 
+    
+    res.status(400).json({
+      errorMessage: "User id does not exist or is not a number. "
+    });
+  }
+  postDb
+    .insert(newPost)
+    .then(post => {
+      res.status(201).json(post);
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "There was an error while saving the post to the database"
+      });
+    });
+});
+
+ 
 module.exports = router;
